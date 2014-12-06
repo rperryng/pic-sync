@@ -27,37 +27,13 @@ public class ContactsFragment extends Fragment implements
 
     public static final String TAG = ContactsFragment.class.getSimpleName();
 
-    /*
-     * Defines an array that contains column names to move from
-     * the Cursor to the ListView.
-     */
     private static final String[] FROM_COLUMNS = {
             Contacts.DISPLAY_NAME_PRIMARY
     };
 
-    /*
-     * Define which item to bind to when binding the Cursor to
-     * the ListView
-     */
     private static final int[] TO_IDS = {
             R.id.contacts_list_item_text
     };
-
-    private static final String[] PROJECTION = {
-            Contacts._ID,
-            Contacts.LOOKUP_KEY,
-            Contacts.DISPLAY_NAME_PRIMARY
-    };
-
-    private static final String SELECTION = Contacts.DISPLAY_NAME_PRIMARY + " LIKE ?";
-    private static final int INDEX_CONTACT_ID = 0;
-    private static final int INDEX_LOOKUP_KEY = 1;
-
-    private String mSearchString = "Ryan";
-    private String[] mSelectionArgs = {mSearchString};
-    private long mContactId;
-    private String mContactKey;
-    private Uri mContactUri;
 
     private ListView mListContacts;
     private SimpleCursorAdapter mCursorAdapter;
@@ -95,15 +71,13 @@ public class ContactsFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        mSelectionArgs[0] = "%" + mSearchString + "%";
-        // Starts the query
         return new CursorLoader(
                 getActivity(),
-                Contacts.CONTENT_URI,
-                PROJECTION,
-                SELECTION,
-                mSelectionArgs,
-                null
+                ContactsQuery.CONTENT_URI,
+                ContactsQuery.PROJECTION,
+                ContactsQuery.SELECTION,
+                null,
+                ContactsQuery.SORT_ORDER
         );
     }
 
@@ -120,10 +94,21 @@ public class ContactsFragment extends Fragment implements
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long rowId) {
         Cursor cursor = mCursorAdapter.getCursor();
-
         cursor.moveToPosition(position);
-        mContactId = cursor.getLong(INDEX_CONTACT_ID);
-        mContactKey = cursor.getString(INDEX_LOOKUP_KEY);
-        mContactUri = Contacts.getLookupUri(mContactId, mContactKey);
+    }
+
+    private static final class ContactsQuery {
+        public static final Uri CONTENT_URI = Contacts.CONTENT_URI;
+        public static final String SORT_ORDER = Contacts.SORT_KEY_PRIMARY;
+        public static final String SELECTION = Contacts.DISPLAY_NAME_PRIMARY +
+                "<>''" + " AND " + Contacts.IN_VISIBLE_GROUP + "=1";
+
+        public static final String[] PROJECTION = {
+                Contacts._ID,
+                Contacts.LOOKUP_KEY,
+                Contacts.DISPLAY_NAME_PRIMARY,
+                Contacts.PHOTO_THUMBNAIL_URI,
+                SORT_ORDER
+        };
     }
 }
