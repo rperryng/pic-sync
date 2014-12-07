@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Pic Sync</string>
+    <string name="facebook_app_id">894622697223671</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 

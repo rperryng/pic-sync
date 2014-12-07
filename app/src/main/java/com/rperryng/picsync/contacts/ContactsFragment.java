@@ -81,7 +81,7 @@ public class ContactsFragment extends Fragment implements
                 getActivity(),
                 ContactsQuery.CONTENT_URI,
                 ContactsQuery.PROJECTION,
-                ContactsQuery.SELECTION,
+                null,
                 null,
                 ContactsQuery.SORT_ORDER
         );

@@ -5,11 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AppEventsLogger;
 import com.rperryng.picsync.R;
-import com.rperryng.picsync.contacts.ContactsFragment;
+import com.rperryng.picsync.facebook.FacebookLoginFragment;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +22,11 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.main_fragment_container, new ContactsFragment(), ContactsFragment.TAG)
+                    .add(
+                            R.id.main_fragment_container,
+                            new FacebookLoginFragment(),
+                            FacebookLoginFragment.TAG
+                    )
                     .commit();
         }
     }
@@ -44,5 +51,17 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(this);
     }
 }
