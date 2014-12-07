@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +28,10 @@ public class ContactsFragment extends Fragment implements
 
     public static final String TAG = ContactsFragment.class.getSimpleName();
 
+    private static final int LOADER_ID = 0;
     private static final String[] FROM_COLUMNS = {
             Contacts.DISPLAY_NAME_PRIMARY
     };
-
     private static final int[] TO_IDS = {
             R.id.contacts_list_item_text
     };
@@ -51,7 +52,7 @@ public class ContactsFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(LOADER_ID, null, this);
 
         Activity activity = getActivity();
 
@@ -70,7 +71,12 @@ public class ContactsFragment extends Fragment implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+        if (id != LOADER_ID) {
+            Log.e(TAG, "onCreateLoader - incorrect id provided (" + id + ")");
+            return null;
+        }
+
         return new CursorLoader(
                 getActivity(),
                 ContactsQuery.CONTENT_URI,

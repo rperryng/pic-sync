@@ -1,7 +1,7 @@
 package com.rperryng.picsync.main;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,7 +9,7 @@ import com.rperryng.picsync.R;
 import com.rperryng.picsync.contacts.ContactsFragment;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
