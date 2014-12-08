@@ -20,10 +20,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main_activity);
 
         if (savedInstanceState == null) {
-            getFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
                     .add(
-                            R.id.main_fragment_container,
+                            R.id.main_fragmentContainer,
                             new FacebookLoginFragment(),
                             FacebookLoginFragment.TAG
                     )

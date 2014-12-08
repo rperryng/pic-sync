@@ -33,7 +33,7 @@ public class ContactsFragment extends Fragment implements
             Contacts.DISPLAY_NAME_PRIMARY
     };
     private static final int[] TO_IDS = {
-            R.id.contacts_list_item_text
+            R.id.contacts_listItemText
     };
 
     private ListView mListContacts;

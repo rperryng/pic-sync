@@ -7,13 +7,13 @@
     android:layout_height="?android:attr/listPreferredItemHeight">
 
     <ImageView
-        android:id="@+id/contacts_list_item_image"
+        android:id="@+id/contacts_listItemImage"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="?android:attr/listPreferredItemHeight"/>
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/contacts_list_item_text"
+        android:id="@+id/contacts_listItemText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/spacing_smaller"
