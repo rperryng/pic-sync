@@ -1,14 +1,13 @@
 package com.rperryng.picsync.contacts;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.rperryng.picsync.R;
 /**
  * Created by Ryan PerryNguyen on 2014-12-06.
  */
-public class ContactsFragment extends Fragment implements
+public class ContactsFragment extends android.support.v4.app.Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         AdapterView.OnItemClickListener {
 
@@ -52,7 +51,8 @@ public class ContactsFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+//        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
         Activity activity = getActivity();
 

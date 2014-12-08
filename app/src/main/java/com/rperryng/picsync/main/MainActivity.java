@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.facebook.AppEventsLogger;
 import com.rperryng.picsync.R;
+import com.rperryng.picsync.contacts.ContactsFragment;
 import com.rperryng.picsync.facebook.FacebookLoginFragment;
 
 
@@ -24,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
                     .beginTransaction()
                     .add(
                             R.id.main_fragmentContainer,
-                            new FacebookLoginFragment(),
+                            new ContactsFragment(),
                             FacebookLoginFragment.TAG
                     )
                     .commit();
