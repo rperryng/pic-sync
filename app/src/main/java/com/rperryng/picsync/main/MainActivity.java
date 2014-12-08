@@ -1,14 +1,19 @@
 package com.rperryng.picsync.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.AppEventsLogger;
+import com.facebook.Session;
 import com.rperryng.picsync.R;
+import com.rperryng.picsync.common.Constants;
+import com.rperryng.picsync.common.Utils;
 import com.rperryng.picsync.contacts.ContactsFragment;
-import com.rperryng.picsync.facebook.FacebookLoginFragment;
+import com.rperryng.picsync.splash.SplashActivity;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(
                             R.id.main_fragmentContainer,
                             new ContactsFragment(),
-                            FacebookLoginFragment.TAG
+                            ContactsFragment.TAG
                     )
                     .commit();
         }
@@ -34,24 +39,43 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.mainMenu_logout) {
+            logout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                Constants.SP.LOGIN.NAME,
+                Context.MODE_PRIVATE
+        );
+        sharedPreferences
+                .edit()
+                .putBoolean(Constants.SP.LOGIN.KEYS.LOGGED_IN, false)
+                .apply();
+
+        Session facebookSession = Session.getActiveSession();
+
+        if (facebookSession == null) {
+            facebookSession = new Session(this);
+            facebookSession.closeAndClearTokenInformation();
+        } else if (facebookSession.isOpened() || !facebookSession.isClosed()) {
+            facebookSession.closeAndClearTokenInformation();
+        }
+
+        Utils.startActivity(this, SplashActivity.class);
+        finish();
     }
 
     @Override

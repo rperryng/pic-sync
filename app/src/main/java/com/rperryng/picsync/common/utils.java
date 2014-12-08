@@ -1,7 +1,9 @@
 package com.rperryng.picsync.common;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -36,5 +38,10 @@ public class Utils {
             Log.e(TAG, "Couldn't get hash key");
             e.printStackTrace();
         }
+    }
+
+    public static void startActivity(Activity activity, Class<?> activityClass) {
+        Intent intent = new Intent(activity, activityClass);
+        activity.startActivity(intent);
     }
 }
