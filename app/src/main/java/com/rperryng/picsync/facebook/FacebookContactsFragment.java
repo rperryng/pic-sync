@@ -14,6 +14,8 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.rperryng.picsync.R;
 
+import java.util.List;
+
 /**
  * Created by Ryan PerryNguyen on 2014-12-08.
  */
@@ -59,6 +61,10 @@ public class FacebookContactsFragment extends FacebookUiFragment {
             }
 
             Log.e(TAG, "Successful request with " + response.getRawResponse());
+            List<FacebookContactModel> users = FacebookContactModel
+                    .parseFacebookResponse(response.getRawResponse());
+
+            FacebookContactModel.logListOfUsers(users);
 //            ListView listView = (ListView) getActivity().findViewById(R.id.facebookContacts_list);
 //            FacebookContactsListAdapter adapter = new FacebookContactsListAdapter(getActivity());
 //            listView.setAdapter(adapter);
