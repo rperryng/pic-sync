@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -50,11 +49,9 @@ public class SplashActivity extends Activity implements Session.StatusCallback {
     @Override
     public void call(Session session, SessionState sessionState, Exception e) {
         if (!sessionState.isOpened()) {
-            Log.e(TAG, "Not logged in");
             return;
         }
 
-        Log.e(TAG, "Setting logged in to true!");
         mSharedPreferences
                 .edit()
                 .putBoolean(Constants.SP.LOGIN.KEYS.LOGGED_IN, true)

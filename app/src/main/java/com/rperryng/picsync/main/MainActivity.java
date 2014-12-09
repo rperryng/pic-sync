@@ -13,6 +13,7 @@ import com.rperryng.picsync.R;
 import com.rperryng.picsync.common.Constants;
 import com.rperryng.picsync.common.Utils;
 import com.rperryng.picsync.contacts.ContactsFragment;
+import com.rperryng.picsync.facebook.FacebookContactsFragment;
 import com.rperryng.picsync.splash.SplashActivity;
 
 
@@ -30,8 +31,8 @@ public class MainActivity extends ActionBarActivity {
                     .beginTransaction()
                     .add(
                             R.id.main_fragmentContainer,
-                            new ContactsFragment(),
-                            ContactsFragment.TAG
+                            new FacebookContactsFragment(),
+                            FacebookContactsFragment.TAG
                     )
                     .commit();
         }
