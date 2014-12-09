@@ -1,7 +1,5 @@
 package com.rperryng.picsync.facebook;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -26,30 +24,25 @@ public class FacebookContactModel {
     public String getName() {
         return mName;
     }
+
     public String getId() {
         return mId;
     }
+
     public Picture getPicture() {
         return mPicture;
-    }
-
-    public static void logListOfUsers(List<FacebookContactModel> listOfUsers) {
-        for (FacebookContactModel user : listOfUsers) {
-            Log.e(TAG, "Got user: " + user.getName());
-            Log.e(TAG, "With picture url: " + user.getPicture().getUrl());
-        }
     }
 
     public static List<FacebookContactModel> parseFacebookResponse(String rawJson) {
         return ApiResponse.parse(rawJson);
     }
 
-    private static class Picture {
+    public static class Picture {
 
         @SerializedName("data")
         private Data mData;
 
-        public String getUrl () {
+        public String getUrl() {
             return mData.mUrl;
         }
 

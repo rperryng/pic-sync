@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -64,10 +65,10 @@ public class FacebookContactsFragment extends FacebookUiFragment {
             List<FacebookContactModel> users = FacebookContactModel
                     .parseFacebookResponse(response.getRawResponse());
 
-            FacebookContactModel.logListOfUsers(users);
-//            ListView listView = (ListView) getActivity().findViewById(R.id.facebookContacts_list);
-//            FacebookContactsListAdapter adapter = new FacebookContactsListAdapter(getActivity());
-//            listView.setAdapter(adapter);
+            ListView listView = (ListView) getActivity().findViewById(R.id.facebookContacts_list);
+            FacebookContactsListAdapter adapter = new FacebookContactsListAdapter(getActivity());
+            adapter.addContacts(users);
+            listView.setAdapter(adapter);
         }
 
         ;
