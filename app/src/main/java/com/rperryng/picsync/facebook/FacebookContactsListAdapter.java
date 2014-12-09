@@ -12,6 +12,7 @@ import com.rperryng.picsync.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ public class FacebookContactsListAdapter extends BaseAdapter {
 
     public void addContacts (List<FacebookContactModel> newUsers) {
         mFacebookContacts.addAll(newUsers);
+        Collections.sort(mFacebookContacts, FacebookContactModel.getAlhabeticalComparator());
     }
 
     @Override
@@ -71,7 +73,7 @@ public class FacebookContactsListAdapter extends BaseAdapter {
         }
 
         FacebookContactModel facebookContact = getItem(position);
-        viewHolder.text.setText(facebookContact.getName());
+        viewHolder.text.setText(facebookContact.getFullName());
 
         Picasso
                 .with(mContext)

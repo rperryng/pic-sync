@@ -3,6 +3,7 @@ package com.rperryng.picsync.facebook;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -12,8 +13,11 @@ public class FacebookContactModel {
 
     public static final String TAG = FacebookContactModel.class.getSimpleName();
 
-    @SerializedName("name")
-    private String mName;
+    @SerializedName("first_name")
+    private String mFirstName;
+
+    @SerializedName("last_name")
+    private String mLastName;
 
     @SerializedName("id")
     private String mId;
@@ -21,8 +25,16 @@ public class FacebookContactModel {
     @SerializedName("picture")
     private Picture mPicture;
 
-    public String getName() {
-        return mName;
+    public String getFirstName() {
+        return mFirstName;
+    }
+
+    public String getLastName() {
+        return mLastName;
+    }
+
+    public String getFullName() {
+        return mFirstName + " " + mLastName;
     }
 
     public String getId() {
@@ -31,6 +43,17 @@ public class FacebookContactModel {
 
     public Picture getPicture() {
         return mPicture;
+    }
+
+    public static Comparator<FacebookContactModel> getAlhabeticalComparator() {
+        return new Comparator<FacebookContactModel>() {
+            @Override
+            public int compare(FacebookContactModel lhs, FacebookContactModel rhs) {
+                Character lhsFirstLetter = lhs.getFirstName().charAt(0);
+                Character rhsFirstLetter = rhs.getFirstName().charAt(0);
+                return lhsFirstLetter.compareTo(rhsFirstLetter);
+            }
+        };
     }
 
     public static List<FacebookContactModel> parseFacebookResponse(String rawJson) {

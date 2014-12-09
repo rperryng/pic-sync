@@ -37,10 +37,13 @@ public class FacebookContactsFragment extends FacebookUiFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "picture.width(500).height(500),first_name,last_name");
+
         new Request(
                 Session.getActiveSession(),
                 "me/taggable_friends",
-                null,
+                parameters,
                 HttpMethod.GET,
                 onFbFriendsRequest
         ).executeAsync();
@@ -61,7 +64,6 @@ public class FacebookContactsFragment extends FacebookUiFragment {
                 return;
             }
 
-            Log.e(TAG, "Successful request with " + response.getRawResponse());
             List<FacebookContactModel> users = FacebookContactModel
                     .parseFacebookResponse(response.getRawResponse());
 
