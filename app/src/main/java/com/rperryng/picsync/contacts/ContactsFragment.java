@@ -51,7 +51,6 @@ public class ContactsFragment extends android.support.v4.app.Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
         Activity activity = getActivity();
@@ -69,6 +68,8 @@ public class ContactsFragment extends android.support.v4.app.Fragment implements
         mListContacts.setAdapter(mCursorAdapter);
         mListContacts.setOnItemClickListener(this);
     }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

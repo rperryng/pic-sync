@@ -72,8 +72,6 @@ public class FacebookContactsFragment extends FacebookUiFragment {
             adapter.addContacts(users);
             listView.setAdapter(adapter);
         }
-
-        ;
     };
 
     @Override
