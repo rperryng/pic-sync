@@ -14,13 +14,16 @@ import com.rperryng.picsync.R;
 import com.rperryng.picsync.common.Constants;
 import com.rperryng.picsync.common.Utils;
 import com.rperryng.picsync.contacts.ContactsTakeTwoFragment;
+import com.rperryng.picsync.facebook.FacebookContactModel;
+import com.rperryng.picsync.facebook.FacebookContactsFragment;
 import com.rperryng.picsync.splash.SplashActivity;
 
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements ContactsTakeTwoFragment
-        .ContactsLoadedListener {
+public class MainActivity extends ActionBarActivity implements
+        ContactsTakeTwoFragment.ContactsLoadedListener,
+        FacebookContactsFragment.FacebookContactsLoadedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -34,8 +37,8 @@ public class MainActivity extends ActionBarActivity implements ContactsTakeTwoFr
                     .beginTransaction()
                     .add(
                             R.id.main_fragmentContainer,
-                            new ContactsTakeTwoFragment(),
-                            ContactsTakeTwoFragment.TAG
+                            new FacebookContactsFragment(),
+                            FacebookContactsFragment.TAG
                     )
                     .commit();
         }
@@ -97,7 +100,14 @@ public class MainActivity extends ActionBarActivity implements ContactsTakeTwoFr
     @Override
     public void onContactsLoaded(List<String> contactNames) {
         for (String contactName : contactNames) {
-            Log.e(TAG, contactName);
+            Log.e(TAG, "contact: " + contactName);
+        }
+    }
+
+    @Override
+    public void onFacebookContactsLoaded(List<FacebookContactModel> facebookContacts) {
+        for (FacebookContactModel facebookContact : facebookContacts) {
+            Log.e(TAG, "facebook: " + facebookContact.getFullName());
         }
     }
 }

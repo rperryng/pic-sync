@@ -1,5 +1,6 @@
 package com.rperryng.picsync.facebook;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -24,6 +25,12 @@ public class FacebookContactsFragment extends FacebookUiFragment {
 
     public static final String TAG = FacebookContactsFragment.class.getSimpleName();
 
+    public interface FacebookContactsLoadedListener {
+        public void onFacebookContactsLoaded(List<FacebookContactModel> facebookContacts);
+    }
+
+    private FacebookContactsLoadedListener mListener;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater,
@@ -31,6 +38,18 @@ public class FacebookContactsFragment extends FacebookUiFragment {
             @Nullable Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.facebook_contacts_fragment, container, false);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (!(activity instanceof FacebookContactsLoadedListener)) {
+            throw new ClassCastException(activity.toString() +
+                    "must implement FacebookContactsLoadedListener interface");
+        }
+
+        mListener = (FacebookContactsLoadedListener) activity;
     }
 
     @Override
@@ -47,7 +66,6 @@ public class FacebookContactsFragment extends FacebookUiFragment {
                 HttpMethod.GET,
                 onFbFriendsRequest
         ).executeAsync();
-
     }
 
     private Request.Callback onFbFriendsRequest = new Request.Callback() {
@@ -71,6 +89,8 @@ public class FacebookContactsFragment extends FacebookUiFragment {
             FacebookContactsListAdapter adapter = new FacebookContactsListAdapter(getActivity());
             adapter.addContacts(users);
             listView.setAdapter(adapter);
+
+            mListener.onFacebookContactsLoaded(users);
         }
     };
 
