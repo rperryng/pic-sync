@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,8 +16,11 @@ import com.rperryng.picsync.common.Utils;
 import com.rperryng.picsync.contacts.ContactsTakeTwoFragment;
 import com.rperryng.picsync.splash.SplashActivity;
 
+import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements ContactsTakeTwoFragment
+        .ContactsLoadedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -88,5 +92,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    public void onContactsLoaded(List<String> contactNames) {
+        for (String contactName : contactNames) {
+            Log.e(TAG, contactName);
+        }
     }
 }
