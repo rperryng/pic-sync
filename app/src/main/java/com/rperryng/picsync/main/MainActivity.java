@@ -3,6 +3,10 @@ package com.rperryng.picsync.main;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,21 +31,26 @@ public class MainActivity extends ActionBarActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(
-                            R.id.main_fragmentContainer,
-                            new FacebookContactsFragment(),
-                            FacebookContactsFragment.TAG
-                    )
-                    .commit();
-        }
+        mViewPager = (ViewPager) findViewById(R.id.main_viewPager);
+        mViewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
+
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .add(
+//                            R.id.main_fragmentContainer,
+//                            new FacebookContactsFragment(),
+//                            FacebookContactsFragment.TAG
+//                    )
+//                    .commit();
+//        }
     }
 
     @Override
@@ -108,6 +117,32 @@ public class MainActivity extends ActionBarActivity implements
     public void onFacebookContactsLoaded(List<FacebookContactModel> facebookContacts) {
         for (FacebookContactModel facebookContact : facebookContacts) {
             Log.e(TAG, "facebook: " + facebookContact.getFullName());
+        }
+    }
+
+    private class MainPagerAdapter extends FragmentStatePagerAdapter {
+
+        private static final int NUM_PAGES = 2;
+        private static final int PAGE_NUM_CONTACTS = 0;
+        private static final int PAGE_NUM_FACEBOOK = 1;
+
+        private MainPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Log.e(TAG, "position " + position);
+            if (position == PAGE_NUM_CONTACTS) {
+                return new ContactsTakeTwoFragment();
+            } else {
+                return new FacebookContactsFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
         }
     }
 }

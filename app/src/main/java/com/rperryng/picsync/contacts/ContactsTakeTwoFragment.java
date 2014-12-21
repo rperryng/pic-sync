@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.rperryng.picsync.R;
 
@@ -34,7 +35,7 @@ public class ContactsTakeTwoFragment extends Fragment {
             LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.facebook_contacts_fragment, container, false);
+        return inflater.inflate(R.layout.contacts_fragment, container, false);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ContactsTakeTwoFragment extends Fragment {
 
         if (!(activity instanceof ContactsLoadedListener)) {
             throw new ClassCastException(activity.toString() +
-                    " must implement ContactsLoadedListener iterface");
+                    " must implement ContactsLoadedListener interface");
         }
 
         mListener = (ContactsLoadedListener) activity;
@@ -61,18 +62,21 @@ public class ContactsTakeTwoFragment extends Fragment {
                 null
         );
 
-        List<String> phoneContactNames = new ArrayList<>();
-
+        List<String> phoneContacts = new ArrayList<>();
         while (cursor.moveToNext()) {
             String contactName = cursor.getString(
                     cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
             );
-
-            phoneContactNames.add(contactName);
+            phoneContacts.add(contactName);
         }
         cursor.close();
 
-        mListener.onContactsLoaded(phoneContactNames);
+        mListener.onContactsLoaded(phoneContacts);
+
+        ListView contactsList = (ListView) getActivity().findViewById(R.id.contacts_list);
+        ContactsListAdapter adapter = new ContactsListAdapter(getActivity());
+        adapter.addContacts(phoneContacts);
+        contactsList.setAdapter(adapter);
     }
 
     private static class ContactsQuery {
